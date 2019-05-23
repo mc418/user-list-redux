@@ -1,33 +1,137 @@
-.App {
+.container {
+  padding: 20px;
+}
+
+.container h1 {
+  padding: 20px;
+  color: #8fbdb3;
+}
+
+.add {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #8fbdb3;
+  width: 220px;
+  margin: 20px;
+  padding: 10px;
+}
+
+.search {
+  padding: 10px;
+  display: flex;
+}
+
+.search p {
+  color: #7ea497;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.search input {
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+}
+
+table {
+  width: 100%;
+}
+
+tr:nth-child(odd) {
+  background-color: #f0f0f3;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+}
+
+.go-to-btn {
+  border: none;
+  background-color: #8fbdb3;
+  margin: 2px;
+  color: white;
+  cursor: pointer;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.btn {
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.active {
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+label{
+  cursor: pointer;
+  display: inline-block;
+  padding: 3px;
+  text-align: right;
+  width: 150px;
+  vertical-align: top;
+  font-size: 20px;
+}
+
+input{
+  font-size: inherit;
+}
+
+input[type=submit] {
+  background-color: #7ea497;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 20px;
+}
+
+a {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.edit {
+  display: inline-block;
+  text-decoration: none;
   color: white;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #8fbdb3;
+  border-radius: 4px;
+  opacity: 0.8;
+  width: 70px;
+  height: 30px;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.delete {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #8fbdb3;
+  border-radius: 4px;
+  opacity: 0.8;
+  width: 110px;
+  height: 30px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sort-btn {
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
 }

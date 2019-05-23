@@ -110,17 +110,18 @@ router.post("/putData", (req, res) => {
 
 // this is our get method
 // this method fetches all available data in our database
-router.get("/sort", (req, res) => {
-  var query = require('url').parse(req.url, true).query;
-  var field = query.field;
-  var option = query.option;
-  console.log(field);
-    Data.find({}, null, {sort: {[field]: option}}, function (err, data) {
-      if (err) return res.json({ success: false, error: err });
-      return res.json({ success: true, data: data });
-    });
-  // }
-});
+// router.get("/sort", (req, res) => {
+//   var query = require('url').parse(req.url, true).query;
+//   var field = query.field;
+//   var option = query.option;
+// //   var data = query.data;
+//   console.log(field);
+//     Data.find({}, null, {sort: {[field]: option}}, function (err, data) {
+//       if (err) return res.json({ success: false, error: err });
+//       return res.json({ success: true, data: data });
+//     });
+//   // }
+// });
 
 
 // search method
