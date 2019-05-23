@@ -35,15 +35,6 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 // this is our get method
-// this method fetches all available data in our database
-// router.get("/getData", (req, res) => {
-//   Data.find((err, data) => {
-//     if (err) return res.json({ success: false, error: err });
-//     return res.json({ success: true, data: data });
-//   });
-// });
-
-// this is our get method
 // this method fetches user info by id in our database
 router.post("/getUser", (req, res) => {
   const { id } = req.body;
@@ -135,7 +126,6 @@ router.get("/getData", function(req, res) {
      Data.find({$or:[{ "firstName" : regex },
                       {"lastName" : regex},
                       {"sex": regex}, 
-                      // {"age" : regex}
                     ]}, function(err, data) {
          if(err) {
              console.log(err);

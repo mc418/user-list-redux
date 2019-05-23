@@ -1,5 +1,4 @@
-import axios from 'axios';
-import Pagination from '../Pagination';
+import Pagination from './Pagination';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,7 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import TableHead from '@material-ui/core/TableHead';
 import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
+import * as actions from '../../redux/actions';
+import { connect } from 'react-redux';
 
 const actionsStyles = theme => ({
   root: {
@@ -92,15 +92,11 @@ class Display extends React.Component {
     }
 
     componentDidMount() {
-        axios({method: 'get', url: 'http://localhost:3001/api/getData'})
-        .then(response => {
+        this.props.getUsersList(() => {
             this.setState({
-                data: response.data.data
-            });
-        })
-        .catch(err => {
-            console.log(err);
-        })
+                data: this.props.users.data
+            })
+        });
     }
 
     handleChangePage = (event, page) => {
@@ -113,54 +109,22 @@ class Display extends React.Component {
 
     onClickDelete = (user) => {
         var objectIdToDelete = user._id;
-        axios({
-            method: 'delete', 
-            url: 'http://localhost:3001/api/deleteData',
-            data: {
-                id : objectIdToDelete
-            }
-        })
-        .then(response => {
-                axios({
-                    method: 'get', 
-                    url: 'http://localhost:3001/api/getData',
+        this.props.deleteUser(objectIdToDelete, () => {
+            this.props.getUsersList(() => {
+                this.setState({
+                    data: this.props.users.data
                 })
-                .then(response => {
-                    this.setState({
-                        data: response.data.data
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            });
+        });
     }
 
     handleSearch = (value) => {
-        axios({
-            method: 'get', 
-            url: 'http://localhost:3001/api/getData',
-            params: {
-                search: value
-            }
-        })
-        .then(response => {
-            this.setState(() => {
-                return {
+        this.props.searchUser(value, () => {
+            this.setState({
                 searchString: value,
-                data: response.data.data,
-            }}, () => {
-                console.log(this.state.searchString);
-                console.log(this.state.data);
-            });
-            
-        })
-        .catch(err => {
-            console.log(err);
-        })
+                data: this.props.users.data,
+            })
+        });
     }
 
     handleRequestSort = (property) => {
@@ -278,4 +242,24 @@ Display.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Display);
+const mapStateToProps = state => {
+    return {
+        users: state.users
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        searchUser: (value, callback) => {
+            dispatch(actions.getSearchUser(value, callback))
+        },
+        getUsersList: (callback) => {
+            dispatch(actions.getUsers(callback));
+        },
+        deleteUser: (id, callback) => {
+            dispatch(actions.getDeleteUsers(id, callback));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Display));

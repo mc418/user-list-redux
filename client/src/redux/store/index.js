@@ -1,6 +1,13 @@
-import {createStore} from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reducers from '../reducers';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducers);
+const logger = store => next => action => {
+    console.log('dispatching', action);
+    next(action);
+    console.log('next state', store.getState());
+  };
+
+const store = createStore(reducers, applyMiddleware(logger, thunk));
 
 export default store;

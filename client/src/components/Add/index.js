@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../App.css';
-import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
 
 class Add extends React.Component {
     constructor(props) {
@@ -12,8 +12,7 @@ class Add extends React.Component {
             sex: 'Male',
             age: '',
             password: '',
-            repeat: '',
-            redirectToReferrer: false
+            repeat: ''
         }
     }
 
@@ -42,32 +41,23 @@ class Add extends React.Component {
     }
 
     handleSubmit = e => {
-        axios({
-            method: 'post', 
-            url: 'http://localhost:3001/api/putData',
-            data: {
-                firstName: this.state.firstname,
-                lastName: this.state.lastname,
-                age: this.state.age,
-                sex: this.state.sex,
-                password: this.state.password
-            }    
-        })
-        .then(response => {
-            this.setState({
-                firstname: '',
-                lastname: '',
-                sex: '',
-                age: '',
-                password: '',
-                repeat: '',
-                redirectToReferrer: true
-            });
-        })
-        .catch(err => {
-            console.log(err);
-        })
         e.preventDefault();
+        var data = {
+            firstName: this.state.firstname,
+            lastName: this.state.lastname,
+            age: this.state.age,
+            sex: this.state.sex,
+            password: this.state.password
+        }
+        this.props.addUser(data);
+        this.setState({
+            firstname: '',
+            lastname: '',
+            sex: '',
+            age: '',
+            password: '',
+            repeat: ''
+        });
     }
 
     render() {
@@ -77,8 +67,7 @@ class Add extends React.Component {
                 age, 
                 sex, 
                 password, 
-                repeat, 
-                redirectToReferrer} = this.state;
+                repeat} = this.state;
         const disabled = firstname === '' 
                         || lastname === '' 
                         || age === '' 
@@ -88,90 +77,101 @@ class Add extends React.Component {
                         || password !== repeat
                         || !regex.test(firstname)
                         || !regex.test(lastname);
-        if (redirectToReferrer) {
-            return <Redirect to='/' />
-        } else {
-            return (
-                <div className="container">
-                    <h1>Create New User</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div>
-                            <label>First Name:</label>
-                            <input 
-                                type="text" 
-                                name="firstname" 
-                                onChange={this.handleFirstName}  
-                            />
-                            <p style={
-                                {display:(regex.test(firstname) || firstname==='') 
-                                ? 
-                                "none" : "inline", color: "red"}
-                                }
-                            >Incorrect form of first name</p>
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Last Name:</label>
-                            <input 
-                                type="text"
-                                name="lastname"
-                                onChange={this.handleLastName}
-                            />
-                            <p style={
-                                {display:(regex.test(lastname) || lastname==='') 
-                                ? 
-                                "none" : "inline", color: "red"}
-                                }
-                            >Incorrect form of last name</p>
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Age:</label>
-                            <input 
-                                type="number" 
-                                name="age" 
-                                onChange={this.handleAge} 
-                            />
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Sex:</label>
-                            <select value={this.state.sex} onChange={this.handleSex}>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                            </select>
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Password:</label> 
-                            <input 
-                                type="password" 
-                                name="password" 
-                                onChange={this.handlePassword} 
-                            />
-                        </div>
-                        <br/>
-                        <div>
-                            <label>Repeat:</label> 
-                            <input 
-                                type="password" 
-                                name="repeat" 
-                                onChange={this.handleRepeat} 
-                            />
-                            <p style={
-                                {display:(password===repeat || password==='' || repeat==='') 
-                                ? 
-                                "none" : "inline", color: "red"}
-                                }
-                            >Password doesn't match</p>
-                        </div>
-                        <br/>
-                        <input type="submit" value="Submit" disabled={disabled} />
-                    </form>
-                </div>
-            )
-        }                 
+
+        return (
+            <div className="container">
+                <h1>Create New User</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <div>
+                        <label>First Name:</label>
+                        <input 
+                            type="text" 
+                            name="firstname" 
+                            onChange={this.handleFirstName}  
+                        />
+                        <p style={
+                            {display:(regex.test(firstname) || firstname==='') 
+                            ? 
+                            "none" : "inline", color: "red"}
+                            }
+                        >Incorrect form of first name</p>
+                    </div>
+                    <br/>
+                    <div>
+                        <label>Last Name:</label>
+                        <input 
+                            type="text"
+                            name="lastname"
+                            onChange={this.handleLastName}
+                        />
+                        <p style={
+                            {display:(regex.test(lastname) || lastname==='') 
+                            ? 
+                            "none" : "inline", color: "red"}
+                            }
+                        >Incorrect form of last name</p>
+                    </div>
+                    <br/>
+                    <div>
+                        <label>Age:</label>
+                        <input 
+                            type="number" 
+                            name="age" 
+                            onChange={this.handleAge} 
+                        />
+                    </div>
+                    <br/>
+                    <div>
+                        <label>Sex:</label>
+                        <select value={this.state.sex} onChange={this.handleSex}>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <div>
+                        <label>Password:</label> 
+                        <input 
+                            type="password" 
+                            name="password" 
+                            onChange={this.handlePassword} 
+                        />
+                    </div>
+                    <br/>
+                    <div>
+                        <label>Repeat:</label> 
+                        <input 
+                            type="password" 
+                            name="repeat" 
+                            onChange={this.handleRepeat} 
+                        />
+                        <p style={
+                            {display:(password===repeat || password==='' || repeat==='') 
+                            ? 
+                            "none" : "inline", color: "red"}
+                            }
+                        >Password doesn't match</p>
+                    </div>
+                    <br/>
+                    <input type="submit" value="Submit" disabled={disabled} />
+                </form>
+            </div>
+        )
     }
 }
 
-export default Add;
+const mapStateToProps = state => {
+    return {
+        data: state.users
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addUser: user => {
+            dispatch(actions.getAddUser(user, ownProps))
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Add);

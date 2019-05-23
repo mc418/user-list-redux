@@ -8,7 +8,7 @@ class Home extends React.Component {
             <div className="container">
                 <h1>USERS</h1>
                 <Display />
-                <a className="add" href="/add"><i className="fas fa-user-plus"> Create New User</i></a>
+                <a className="add" href="/add"><i className="fas fa-user-plus">Create New User</i></a>
             </div>
         )
     }
