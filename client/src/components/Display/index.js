@@ -215,21 +215,21 @@ class Display extends React.Component {
                 )}
                 </TableBody>
                 <TableFooter>
-                <TableRow>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        colSpan={6}
-                        count={data.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        SelectProps={{
-                            native: true,
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        ActionsComponent={PaginationWrapped}
-                    />
-                </TableRow>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            colSpan={6}
+                            count={data.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                                native: true,
+                            }}
+                            onChangePage={this.handleChangePage}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                            ActionsComponent={PaginationWrapped}
+                        />
+                    </TableRow>
                 </TableFooter>
             </Table>
             </div>
